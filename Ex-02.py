@@ -1,31 +1,46 @@
-internet = float(input('Informe a quantidade de internet consumida: '))
-ligacao_local = int(input('Informe a quantidade de ligações local consumida: '))
-ligacao_interurbana = int(input('Informe a quantidade de ligações interurbana consumida: '))
-torpedo = int(input('Informe a quantidade de torpedos enviados: '))
+qtde_internet = int(input('Informe o consumo de internet: '))
+qtde_local = int(input('Informe o consumo de ligações locais: '))
+qtde_interurbano = int(input('Informe o consumo de ligações interurbanas: '))
+qtde_torpedo = int(input('Informe o consumo de torpedos: '))
 
-total_internet = internet * 0.50
-total_ligacao_local = ligacao_local * 0.35
-total_ligacao_interurbana = ligacao_interurbana * 0.60
-total_torpedo = torpedo * 0.20
+valor_internet = qtde_internet * 0.5
+valor_local = qtde_local * 0.35
+valor_interurbano = qtde_interurbano * 0.6
+valor_torpedo = qtde_torpedo * 0.2
 
-total_fatura = total_torpedo + total_internet + total_ligacao_local + total_ligacao_interurbana
+total_sem_desconto = valor_internet + valor_local + valor_interurbano + valor_torpedo
+print(f'Total da fatura sem desconto: R$ {total_sem_desconto:.2f}')
 
-if internet > 50 and total_internet * 0.95 > total_ligacao_local * 0.90 and total_internet * 0.95 > total_ligacao_interurbana * 0.90\
-        and total_internet * 0.95 > total_torpedo * 0.80:
-    desconto = total_internet * 0.95
-    print("O desconto concedido foi em cima do serviço de Internet.")
-elif ligacao_local > 200 and total_ligacao_local * 0.90 > total_ligacao_interurbana * 0.90 and total_ligacao_local * 0.90 > total_torpedo * 0.80:
-    desconto = total_ligacao_local * 0.90
-    print("O desconto concedido foi em cima do serviço de Ligação Local.")
-elif ligacao_interurbana > 150 and total_ligacao_interurbana * 0.90 > total_torpedo * 0.80:
-    desconto = total_ligacao_interurbana * 0.90
-    print("O desconto concedido foi em cima do serviço de Ligação Interurbana.")
+desconto = 0
+tipo_desconto = ''
+
+if qtde_internet > 50:
+    desconto = valor_internet * 0.05
+    tipo_desconto = 'internet'
+
+if qtde_local > 200:
+    desconto_local = valor_local * 0.1
+    if desconto_local > desconto:
+        desconto = desconto_local
+        tipo_desconto = 'ligação local'
+
+if qtde_interurbano > 150:
+    desconto_interurbano = valor_interurbano * 0.1
+    if desconto_interurbano > desconto:
+        desconto = desconto_interurbano
+        tipo_desconto = 'ligação interurbana'
+
+if qtde_torpedo > 50:
+    desconto_torpedo = valor_torpedo * 0.2
+    if desconto_torpedo > desconto:
+        desconto = desconto_torpedo
+        tipo_desconto = 'torpedos'
+
+if desconto != 0:
+    print(f"O desconto será sobre o serviço: {tipo_desconto}")
+    print(f"O valor do desconto será de R$ {desconto:.2f}")
+
+    total_com_desconto = total_sem_desconto - desconto
+    print(f"O total com desconto será R$ {total_com_desconto:.2f}")
 else:
-    desconto = total_torpedo * 0.80
-    print("O desconto concedido foi em cima do serviço de Torpedos.")
-
-fatura_liquida = total_fatura - desconto
-
-print(f'O total da fatura sem desconto é de R${total_fatura:.2f}.')
-print(f'O valor do desconto foi de R$ {desconto:.2f}.')
-print(f'O total da fatura com o desconto foi de R$ {fatura_liquida:.2f}.')
+    print('Não haverá desconto')
